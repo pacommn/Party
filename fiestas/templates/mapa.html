@@ -1,0 +1,116 @@
+{% extends "menu.html" %}
+
+{% block titulo %} Discotecas {% endblock %}
+
+{% block contenido %}
+
+<div class="mapa" onload="initMap()">
+    <div id="map" style="width: 100%; height: 100%;"></div>
+</div>
+
+<script>
+    function initMap() {
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 12,
+        });
+
+        var discotecas = [
+            {
+                nombre: "Terraza Bilindo",
+                ubicacion: {lat: 37.37151621599066, lng: -5.988915613560738},
+                url:"{% url 'discoteca' 3 %}",
+                direccion: "P.º de las Delicias, s/n, 41001 Sevilla, Spain"
+            },
+            {
+                nombre: "Terraza Alfonso",
+                ubicacion: {lat: 37.370599952848885, lng: -5.988360260404353},
+                url:"{% url 'discoteca' 3 %}",
+                direccion: "P.º de las Delicias, 13, 41013 Sevilla, Spain"
+            },
+            {
+                nombre: "Libano Terraza",
+                ubicacion: {lat: 37.37090529377041, lng: -5.989382297944415},
+                url:"{% url 'discoteca' 2 %}",
+                direccion: "P.º de las Delicias, 151, 41013 Sevilla, Spain"
+            },
+            {
+                nombre: "Antique Theatro",
+                ubicacion: {lat: 37.40509974804076, lng: -6.001404403607248},
+                url:"{% url 'discoteca' 4 %}",
+                direccion: "C. Matemáticos Rey Pastor y Castro, s/n, 41092 Sevilla, Spain"
+            },
+            {
+                nombre: "Terraza Casino",
+                ubicacion: {lat: 37.378422291317015,  lng: -5.990456641394104},
+                url:"{% url 'discoteca' 1 %}",
+                direccion: "Av. de María Luisa, 4, 41013 Sevilla, Spain"
+            },
+        ];
+        
+        
+        discotecas.forEach(function(disco) {
+            var marker = new google.maps.Marker({
+                position: disco.ubicacion,
+                map: map,
+                title: disco.nombre
+            });
+            
+            var infowindow = new google.maps.InfoWindow({
+                content: "<div><strong>" + disco.nombre + "</strong><br>" + disco.direccion + "<br><a href="+disco.url+">Visitar sitio web</a></div>"
+            });
+            
+            marker.addListener('click', function() {
+                infowindow.open(map, marker);
+            });
+        });
+       
+    
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+
+            var currentLocationMarker = new google.maps.Marker({
+                position: pos,
+                map: map,
+                title: 'Tu ubicación actual',
+                icon: {
+                path: google.maps.SymbolPath.CIRCLE,
+                scale: 8,
+                fillColor: 'blue',    
+                fillOpacity: 0.5,
+                strokeColor: '#0000FF',
+                strokeOpacity: 0.5,
+                },
+            });
+
+            var infowindow = new google.maps.InfoWindow();
+            infowindow.setContent('<div><strong>Tu ubicación actual</strong></div>');
+            infowindow.open(map, currentLocationMarker);
+    
+            map.setCenter(pos);
+            }, function() {
+            handleLocationError(true, map.getCenter());
+            });
+        } else {
+            handleLocationError(false, map.getCenter());
+        }
+    
+        function handleLocationError(browserHasGeolocation, pos) {
+            var infoWindow = new google.maps.InfoWindow({map: map});
+            infoWindow.setPosition(pos);
+            infoWindow.setContent(browserHasGeolocation ?
+                                'Error: El servicio de geolocalización ha fallado.' :
+                                'Error: Tu navegador no soporta geolocalización.');
+        }
+    }
+</script>
+
+  
+
+
+
+{% endblock %} 

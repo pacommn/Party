@@ -1,0 +1,85 @@
+{% extends "menu.html" %}
+
+{% block titulo %} Subir Foto {% endblock %}
+
+{% block contenido %}   
+
+<div class="container margen mapa">
+
+    <div class="row">
+    
+        <div class="col md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Subir foto</h4>
+                    {% include 'formulario.html' %}
+                </div>
+            </div>
+        </div>
+    
+        <div class="col md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Fotos</h4>
+                    
+                    <div class="table">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Titulo</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for foto in fotos %}
+                                <tr class="">
+                                    <td>{{foto.fotoId}}</td>
+                                    <td>
+                                        <img src="{{foto.foto.url}}" height="100">
+                                        
+                                    </td>
+                                    <td> 
+                                        <a name="" id="" class="btn btn-danger" href="{% url 'eliminar' foto.fotoId %}" role="button">Eliminar</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        
+                    </div>
+
+                    {% if fotos.has_other_pages %}
+                    <ul class="pagination justify-content-center">
+                        {% if fotos.has_previous %}
+                        <li class="page-item"><a class="page-link" href="?page=1">&laquo;</a></li>
+                        <li class="page-item"><a class="page-link" href="?page={{ fotos.previous_page_number }}">&lsaquo;</a></li>
+                        {% endif %}
+                        {% for i in fotos.paginator.page_range %}
+                            {% if fotos.number == i %}
+                            <li class="page-item active"><a class="page-link" href="#">{{ i }} <span class="sr-only">(current)</span></a></li>
+                            {% else %}
+                            <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if fotos.has_next %}
+                        <li class="page-item"><a class="page-link" href="?page={{ fotos.next_page_number }}">&rsaquo;</a></li>
+                        <li class="page-item"><a class="page-link" href="?page={{ fotos.paginator.num_pages }}">&raquo;</a></li>
+                        {% endif %}
+                    </ul>
+                    {% endif %}
+
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+
+
+{% endblock %} 

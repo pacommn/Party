@@ -1,0 +1,77 @@
+{% extends "menu.html" %}
+
+{% block titulo %} Discoteca {% endblock %}
+
+{% block contenido %}   
+
+
+
+<div class="container margen carrito">
+    <div class="card carritoLargo">
+        <div class="card-body">
+            <h4 class="card-title">Carrito</h4>
+            
+            <div class="table">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Fiesta</th>
+                            <th>Cantidad</th>
+                            <th>Nombre</th>
+                            <th>Precio</th>
+                            <th>Total</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {% if n > 0 %}
+                            {% for e in entradas %}
+                                <tr class="">
+            
+                                    <td><a href="{% url 'fiesta' e.fiestaId.fiestaId %}"><img src="{{e.fiestaId.foto.url}}" alt="" class="fotoCarrito"></a></td>
+                                    <td class="cantidadColumna"><a href="{% url 'carritoSuma' e.entradaId %}"><button class="botonCantidad botonSuma" >+</button></a>{{e.cantidad}} <a href="{% url 'carritoResta' e.entradaId %}"><button class="botonCantidad botonResta">-</button></a></td>
+                                    <td>{{e.nombre}}</td>
+                                    <td class="">{{e.coste}} €</td>
+                                    <td class="">{{e.total}} €</td>
+                                    <td><a href="{% url 'eliminarCarrito' e.entradaId %}"><button class="eliminarCarrito"><i class="fa-solid fa-trash-can"></i></button></a></td>
+            
+                                </tr>
+                            
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="5">
+                                    <div class="alert alert-danger text-center">
+                                        Sin productos
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endif %}
+            
+                    </tbody>
+                </table>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="resumenCarrito center-carrito">
+        <div class="center-carrito">
+            <h2>Total del carrito</h2>
+            <table class="table">
+                <tbody>
+                    <tr class="totalCarrito">
+                        <th>Total</th>
+                        <td class="total">{{total}} €</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class=""><a href="{% url 'finalizarCompra' carritoId %}" class="comprarCarrito">Finalizar compra </a></div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %} 

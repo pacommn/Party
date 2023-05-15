@@ -1,0 +1,36 @@
+{% extends "menu.html" %}
+
+{% block titulo %} Registro {% endblock %}
+
+{% block contenido %}   
+
+<div class="container abajo">
+    <div class="encuadre">
+        <div class="wrapper2">
+            <div class="form-wrapper sign-up">
+                <form enctype="multipart/form-data" method="post">
+                    <h2 class="titLogin">Editar informacion</h2>
+                    {% csrf_token %}
+                    {% for campo in formulario %}
+                        <div class="opciones">
+                            <input type="{{campo.field.widget.input_type}}" value="{{campo.value | default:'' }}" name="{{campo.name}}" > 
+                            <label for="">{{campo.label}}</label>
+                        </div>
+                        <div class="col-12 help-text">{{campo.errors}}</div>
+                    {% endfor %}
+                    <!--<div class="opciones">
+                        <input type="password" required>
+                        <label for="">Contraseña</label>
+                    </div>-->
+                    <button class="btnLogin" type="submit">Guardar cambios</button>
+                </form>
+            </div>
+        </div>
+    </div>      
+    
+</div>
+
+
+
+
+{% endblock %} 

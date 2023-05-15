@@ -1,0 +1,29 @@
+.imagenPdf{
+    max-width: 100%;
+    height: auto;
+}
+
+.col{
+    text-align: center;
+}
+
+body {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.cabecera{
+    background-color: rgb(11, 11, 27);
+    margin-top: 31px;
+    text-align: center;
+    vertical-align: center !important;
+    font-size: 29px;
+    font-size: 35px;
+    font-weight: 800;
+    color: #fff;
+}
+
+.subtext{
+    font-size: 29px;
+}
+
+

@@ -1,0 +1,58 @@
+{% extends "menu.html" %}
+
+{% block titulo %} Discotecas {% endblock %}
+
+{% block contenido %}
+
+<div class="container margen">
+
+  {% if messages and x %}
+    <script type="text/javascript">
+      Swal.fire({
+        title: 'Advertencia',
+        icon: 'warning',
+        html: 'No se encontró ninguna discoteca que contenga el nombre: {{mensaje}}',
+        showCloseButton: true,
+        showCancelButton: false,
+        focusConfirm: false,
+        confirmButtonText: 'OK'
+      })
+    </script>
+{% endif %}
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for discoteca in discotecas %}
+        <div class="col">
+          <div class="card transi">
+            <a href="{% url 'discoteca' discoteca.discotecaId %}"><img src="{{discoteca.foto.url}}" class="card-img-top carta" alt="..."></a>
+            <div class="card-img-overlay">
+              {% if user.is_authenticated %}
+                {% if discoteca.nombre in lista_pintadas %}
+                  <h5 class="card-title"><a href="{% url 'subscripcion' discoteca.discotecaId %}"><button class="campanaA"><i class="fa-solid fa-bell"></i></button></a></h5>
+                {% else %}
+                  <h5 class="card-title"><a href="{% url 'subscripcion' discoteca.discotecaId %}"><button class="campana"><i class="fa-solid fa-bell"></i></button></a></h5>
+                {% endif %}
+              {% else %}
+                <h5 class="card-title"><button class="campana"><i class="fa-solid fa-bell"></i></button></h5>
+              {% endif %}
+            </div>
+            <div class="card-body">
+              <a class="linkNombre" href="{% url 'discoteca' discoteca.discotecaId %}"><h5 class="card-title">{{discoteca.nombre}}</h5></a>
+              <p class="card-text">{{discoteca.descripcionp}}</p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        
+      </div>
+
+</div>
+
+
+<br>
+
+
+
+
+
+{% endblock %} 

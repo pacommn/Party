@@ -1,0 +1,66 @@
+{% extends "menu.html" %}
+
+{% block titulo %} Inicio {% endblock %}
+
+{% block contenido %}  
+
+<div class="container2">
+
+
+    <div class="row2">
+        <div class="col2">
+            <h1 class="enunciado">Bailemos</h1>
+            <p>Aquí encontraras las mejores fiestas de la zona,
+                <br>
+                no esperes y unete para ser el mas fiestero
+            </p>
+            <a href="{% url 'fiestas' %}"><button type="button">Explorar</button></a>
+
+        </div>
+        <div class="col3">
+            
+            <div onclick="cambiarFondo('1')"  class="card cartas carta1">
+               
+            </div>
+
+            <div onclick="cambiarFondo('2')" class="card cartas carta2">
+                
+            </div>
+
+            <div onclick="cambiarFondo('3')" class="card cartas carta3">
+                
+            </div>
+
+            <div onclick="cambiarFondo('4')" class="card cartas carta4">
+                
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+    function cambiarFondo(a){
+        let container=document.getElementsByClassName('container2')[0];
+        let carta=document.getElementsByClassName('carta'+a)[0];
+        let elementStyle = window.getComputedStyle(carta);
+        let elementImagen = elementStyle.getPropertyValue('background-image');
+        let elementStyle2 = window.getComputedStyle(container);
+        let elementImagen2 = elementStyle2.getPropertyValue('background-image');
+        container.style.backgroundImage="linear-gradient(rgba(0, 0, 0, 0.7),rgba(0, 0, 0, 0.7)), " + elementImagen +" ";
+
+        elementImagen2=elementImagen2.split(",")[8];
+
+        carta.style.backgroundImage=elementImagen2;
+
+    }
+    
+
+</script>
+
+
+{% endblock %} 
+
+

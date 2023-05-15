@@ -1,0 +1,91 @@
+{% extends "menu.html" %}
+
+{% block titulo %} Discoteca {% endblock %}
+
+{% block contenido %}   
+
+<div class="container3 margen margenAbajo">
+    <div class="row ">
+        <div class="col-md-4">
+
+            <img src="{{fiesta.foto.url}}" alt="" class="compraImagen">
+
+        </div>
+
+        <div class="col">
+
+            <div class="tituloFiesta">
+                <h1>{{fiesta.nombre}} </h1>
+                <hr>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div class="infoFiesta">
+                        <p> <strong>Discoteca:</strong> {{fiesta.discotecaId.nombre}} </p>
+                        
+                        <p> <strong>Precio:</strong> {{fiesta.precio}} € (Incluye una consumicion) </p>
+        
+                        <p> <strong>Fecha:</strong> {{fiesta.fecha|date:"l, d \d\e F \d\e Y"}} </p>
+
+                        <p></p>
+                    </div>
+                </div>
+
+                <div class="col">
+
+                    <div class="compraEntrada" >
+
+                        {% include 'formulario.html' %}
+                        
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <br>
+
+    <div class="descripcionEntrada">
+        <h2>Descripcion de la fiesta</h2>
+        <hr>
+
+        <p>THE CIRCUS!</p>
+        <br>
+        <p>PASEN Y VEAN!!! II Edición<br>
+            Una de nuestras fiestas favoritas vuelve…<br>
+            🎪 Especial puesta en escena (como nos gusta!),<br>
+            🎪shows<br>
+            🎪performances y regalos… convertiremos aquello en un auténtico circo donde el espectáculo está aseguro…</p>
+
+        <p>Entradas muy limitadas!! #viernesdeocco</p>
+
+        <p>#fiestasuniversitarias #woowcampus #fusevilla #noslapegamos #estanomelapierdo #hastaelamanecer #party #sevilla #circusparty</p>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    function cambiarPrecio(){
+        var entrada;
+        entrada=document.getElementById("entrada").value;
+
+        if(entrada=="R"){
+            texto=document.getElementsByClassName("infoFiesta")[0].children[1].innerHTML=" <strong>Precio:</strong> 100€ (Incluye una botella y 30 refrescos) "
+            document.getElementsByClassName("infoFiesta")[0].children[3].innerHTML=" <strong> Maximo {{fiesta.personas_reservado}} personas  </strong> "
+        }else{
+            texto=document.getElementsByClassName("infoFiesta")[0].children[1].innerHTML=" <strong>Precio:</strong> {{fiesta.precio}} € (Incluye una consumicion) "
+            document.getElementsByClassName("infoFiesta")[0].children[3].innerHTML=""
+        }
+    }
+
+</script>
+
+
+
+{% endblock %} 

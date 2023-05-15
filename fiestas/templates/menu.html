@@ -1,0 +1,123 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>{% block titulo %}  {% endblock %}</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS v5.2.1 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+
+  <link href="{% static "css\style.css" %}" rel="stylesheet" type="text/css">
+
+  <script src="https://kit.fontawesome.com/e5e8e687e0.js" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <script src="{% static 'highcharts\highcharts.js' %}"></script>
+  <script src="{% static 'highcharts\modules\exporting.js' %}"></script>
+  <script src="{% static 'highcharts\modules\export-data.js' %}"></script>
+  <script src="{% static 'highcharts\modules\accessibility.js' %}"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCxZaJWgE2Ot6yrseXO34BUzY_6QA0jNkY&callback=initMap" async defer></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCxZaJWgE2Ot6yrseXO34BUzY_6QA0jNkY&libraries=places"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.0/dist/sweetalert2.min.css">
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.0/dist/sweetalert2.all.min.js"></script>
+
+
+</head>
+
+<body>
+
+    <input type="checkbox" id="check">
+
+    <nav class="menu">
+
+      <div class="icon"><a class="nav-link" href="{% url 'inicio' %}"><b style="color:#42bcdd;">P</b>arty</a></div>
+
+      <div class="search_box">
+        <form method="GET" action="{% url 'buscar' %}">
+          <input type="search" placeholder="Buscar discoteca" aria-label="Search" name="nombre" value="{{ request.GET.nombre }}">
+          <button type="submit" ><i class="fa fa-search"></i></i></button>
+        </form>
+      </div>
+
+      <ul>
+
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'discotecas' %}">Discotecas</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'fiestas' %}">Fiestas</a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'mapa' %}" >Mapa</a>
+        </li>
+
+        {% if user.is_authenticated and usuario.admin != null %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'subir' %}">Subir</a>
+        </li>
+        {% endif %}
+
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'perfil' %}">{{user.username}}</a>
+        </li>
+        {% endif %}
+
+        {% if not user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'registrar' %}">Registrarse</a>
+        </li>
+        {% endif %}
+        
+        {% if not user.is_authenticated %} 
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'login' %}">Iniciar sesion</a>
+        </li>
+        {% endif %}
+
+        <li class="nav-item">
+          <a class="nav-link position-relative carro" href="{% url 'carrito' %}"><i class="fa-solid fa-cart-shopping"></i></i> 
+            <span class="numCarrito">
+              {{total_carrito}}
+            </span>
+          </a>
+        </li>
+
+      </ul>
+
+      <label for="check" class="bar">
+        <span class="fa fa-bars" id="bars"></span>
+        <span class="fa fa-times" id="times"></span>
+      </label>
+
+        
+    </nav>
+
+
+
+        {% block contenido %}   {% endblock %} 
+
+
+
+
+
+  <!-- Bootstrap JavaScript Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+    integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
+  </script>
+
+  
+</body>
+
+</html>

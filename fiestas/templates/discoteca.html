@@ -1,0 +1,119 @@
+{% extends "menu.html" %}
+
+{% block titulo %} Discoteca {% endblock %}
+
+{% block contenido %}   
+
+<div class="container ">
+
+    <div class="banner">
+
+        <img class="imagenBanner" src="{{discoteca.foto.url}}" alt="">
+
+        <div class="circuloBlanco">
+            <img  class="emoti" src="{{discoteca.icono.url}}" alt="">
+        </div>
+
+    </div>
+
+    <nav >
+        <div class="nav nav-tabs navega" id="nav-tab" role="tablist">
+          <button class="nav-link active lin" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Descripcion</button>
+          <button class="nav-link lin" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Fiestas</button>
+          <button class="nav-link lin" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Fototeca</button>
+        </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+
+        <div class="tab-pane fade show active vista" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+
+            <div class="container margenAbajo">
+
+                <h1 class="titulo">Una breve descripcion de Nosotros</h1>
+
+                {{discoteca.descripciong|safe}}
+            </div>
+
+        </div>
+
+        <div class="tab-pane fade vista" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+            <div class="container margenAbajo">
+
+                <h1 class="titulo">Proximas fiestas en {{discoteca.nombre}}</h1>
+
+                <div class="row row-cols-1 row-cols-md-3 g-3">
+                    {% for fiesta in fiestas %}
+                    <div class="col">
+                      <div class="card transi">
+                        <a href="{% url 'fiesta' fiesta.fiestaId %}"><img src="{{fiesta.foto.url}}" class="card-img-top carta" alt="..."></a>
+                        <div class="card-body alturaCarta">
+                          <h5 class="card-title">{{fiesta.nombre}}</h5>
+                          <hr>
+                          <p class="card-text"><b>Precio:</b> {{fiesta.precio}} €</p>
+                          <p class="card-text"><b>Fecha:</b> {{fiesta.fecha|date:"l, d \d\e F \d\e Y"}} </p>
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
+                    
+                  </div>
+
+            </div>
+        </div>
+
+        <div class="tab-pane fade vista" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+
+            <div class="container margenAbajo">
+
+                <h1 class="titulo">Nuestras Fotos</h1>
+
+                <div class="row row-cols-1 row-cols-md-4 g-4">
+
+                  {% for foto in fotos %}
+                    <div class="col">
+                      <div class="card transi">
+                        <img src="{{foto.foto.url}}" class="card-img-top carta2 mi" alt="...">  
+                        <div class="card-img-overlay">
+                            <h5 class="card-title"><a download="" href="{{foto.foto.url}}"><button class="campana"><i class="fa-solid fa-download"></i></a></button></h5>
+                        </div>
+                      </div>
+                    </div>
+                  {% endfor %}
+                    
+                  </div>
+
+            </div>
+
+        </div>
+    </div>
+      
+
+    
+
+</div>
+
+<div id="image-container" style="display:none; position:fixed; top:0; left:0; bottom:0; right:0; background:rgba(0, 0, 0, 0.8); z-index:999;">
+  <div id="image-inner-container" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+    <img src="" id="selected-image" style="max-width:100%; max-height:100%; display:block;">
+    <button id="close-button" style="position: absolute; top: 10px; right: 10px; z-index:999;">X</button>
+  </div>
+</div>
+
+<script>
+  $(".mi").click(function() {
+      $("#selected-image").attr("src", $(this).attr("src"));
+      $("#image-container").show();
+      $("#page-content").css("pointer-events", "none");
+  });
+  
+  $("#close-button").click(function() {
+      $("#image-container").hide();
+      $("#page-content").css("pointer-events", "auto");
+  });
+</script>
+
+
+
+
+
+{% endblock %} 

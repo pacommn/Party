@@ -1,0 +1,30 @@
+{% extends "menu.html" %}
+
+{% block titulo %} Fototeca {% endblock %}
+
+{% block contenido %}   
+
+
+<div class="container margen margenAbajo mapa">
+
+    <div class="row row-cols-1 row-cols-md-3 g-3">
+        {% for fiesta in fiestas %}
+        <div class="col">
+          <div class="card transi">
+            <a href="{% url 'fiesta' fiesta.fiestaId %}"><img src="{{fiesta.foto.url}}" class="card-img-top carta" alt="..."></a>
+            <div class="card-body alturaCarta">
+              <h5 class="card-title">{{fiesta.nombre}} - {{fiesta.discotecaId.nombre}} </h5>
+              <hr>
+              <p class="card-text"><b>Precio:</b> {{fiesta.precio}} €</p>
+              <p class="card-text"><b>Fecha:</b> {{fiesta.fecha|date:"l, d \d\e F \d\e Y"}} </p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        
+      </div>
+
+</div>
+
+
+{% endblock %} 

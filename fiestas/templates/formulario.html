@@ -1,0 +1,100 @@
+<form enctype="multipart/form-data" method="post">
+
+    {% csrf_token %}
+    {% for campo in formulario %}
+        {% if not user.is_authenticated %}
+            <div class="mb-3">
+                
+                <label for="" class="form-label">{{campo.label}}:</label>
+                
+                {% if campo.field.widget.input_type == 'file' and campo.value %}
+                <br>
+                <img src="{{MEDIA_URL}}/imagenes/{{campo.value}}" width="100">
+                {% endif %}
+
+                {% if campo.field.widget.input_type == 'select' %}
+                    <select name="{{campo.name}}" id="entrada" onchange="cambiarPrecio()">
+                        <option value="N">Normal</option>
+                        <option value="R">Reservado</option>
+                    </select>
+                {% else %}
+
+                    <input type="{{campo.field.widget.input_type}}" class="form-control" name="{{campo.name}}" id="" aria-describedby="helpId" placeholder="{{campo.label}}" value="{{campo.value | default:'' }}"> 
+                {% endif %}
+
+            </div>
+
+            <div class="col-12 help-text">{{campo.errors}}</div>
+        {% elif campo.label != "Correo de entrega" %}
+            {{campo.names}}
+            <div class="mb-3">
+                    
+                <label for="" class="form-label">{{campo.label}}:</label>
+                
+                {% if campo.field.widget.input_type == 'file' and campo.value %}
+                <br>
+                <img src="{{MEDIA_URL}}/imagenes/{{campo.value}}" width="100">
+                {% endif %}
+
+                {% if campo.field.widget.input_type == 'select' %}
+                    <select name="{{campo.name}}" id="entrada" onchange="cambiarPrecio()">
+                        <option value="N">Normal</option>
+                        <option value="R">Reservado</option>
+                    </select>
+                {% else %}
+
+                    <input type="{{campo.field.widget.input_type}}" class="form-control" name="{{campo.name}}" id="" aria-describedby="helpId" placeholder="{{campo.label}}" value="{{campo.value | default:'' }}" multiple> 
+                {% endif %}
+
+            </div>
+
+            <div class="col-12 help-text">{{campo.errors}}</div>
+
+        {% elif not user.email %}
+            {{campo.names}}
+            <div class="mb-3">
+                    
+                <label for="" class="form-label">{{campo.label}}:</label>
+                
+                {% if campo.field.widget.input_type == 'file' and campo.value %}
+                <br>
+                <img src="{{MEDIA_URL}}/imagenes/{{campo.value}}" width="100">
+                {% endif %}
+
+                {% if campo.field.widget.input_type == 'select' %}
+                    <select name="{{campo.name}}" id="entrada" onchange="cambiarPrecio()">
+                        <option value="N">Normal</option>
+                        <option value="R">Reservado</option>
+                    </select>
+                {% else %}
+
+                    <input type="{{campo.field.widget.input_type}}" class="form-control" name="{{campo.name}}" id="" aria-describedby="helpId" placeholder="{{campo.label}}" value="{{campo.value | default:'' }}" multiple> 
+                {% endif %}
+
+            </div>
+
+            <div class="col-12 help-text">{{campo.errors}}</div>
+        {% endif %}
+
+    {% endfor %}
+        
+{% if request.path == '/registrar' %}
+    <input name="" id="" class="btn btn-success" type="submit" value="Registrarse">
+{% endif %}
+
+{% if request.path == '/subir' %}
+    <input name="" id="" class="btn btn-success" type="submit" value="Subir foto">
+{% endif %}
+
+{% if request.path == '/login' %}
+    <input name="" id="" class="btn btn-success" type="submit" value="Iniciar sesion">
+{% endif %}
+
+{% url 'fiesta' id=id as fiesta_url %}
+{% if request.path == fiesta_url %}
+    <div class="center">
+        <input name="" id="" class="btn btn-success" type="submit" value="Añadir al carrito">
+    </div>
+{% endif %}
+</form>
+

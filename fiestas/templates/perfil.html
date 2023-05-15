@@ -1,0 +1,738 @@
+{% extends "menu.html" %}
+
+{% block titulo %} Perfil {% endblock %}
+
+{% block contenido %}   
+
+<div class="container margen">
+
+    <section class="perfil-usuario">
+        <div class="contenedor-perfil">
+            <div class="portada-perfil" style="background-image: url('{{usuario.foto}}');">
+                <div class="sombra"></div>
+                <div class="avatar-perfil">
+                    <img src="{{usuario.foto}}" alt="img">
+                    <a href="#" class="cambiar-foto">
+                        <i class="fas fa-camera"></i> 
+                        <span>Cambiar foto</span>
+                    </a>
+                    <form method="post" action="{% url 'cambiar_foto' %}" enctype="multipart/form-data" id="cambiar_f">
+                        {% csrf_token %}
+                        <input type="file" id="file-input" style="display:none;" name="file2">
+                        <input type="submit" value="Guardar">
+                    </form>
+                    
+                </div>
+                <div class="datos-perfil">
+                    <h4 class="titulo-usuario">{{user.username}}</h4>
+                </div>
+                <div class="opcciones-perfil">
+                    <button type=""><a class="nav-link" href="{% url 'logout' %}">Cerrar sesion</a></button>
+                    <a href="{% url 'editar_info' %}"><button type=""><i class="fas fa-wrench"></i></button></a>
+                </div>
+            </div>
+            <div class="menu-perfil">
+                <ul class="nav nav-pills mb-3 menuPerfil" id="pills-tab" role="tablist">
+                    {% if usuario.admin is not null %}
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="pills-ventas-tab" data-bs-toggle="pill" data-bs-target="#pills-ventas" type="button" role="tab" aria-controls="pills-ventas" aria-selected="false">Registro de ventas</button>
+                        </li>
+                    {% endif %}
+
+                    <li class="nav-item" role="presentation">
+                    {% if usuario.admin is not null %}
+                    <button class="nav-link" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Informacion</button>
+                    {% else %}
+                    <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Informacion</button>
+                    {% endif %}
+                    </li>
+                        
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Discotecas</button>
+                    </li>
+                    
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Entradas</button>
+                    </li>
+
+                  </ul>
+
+
+
+                  <div class="tab-content" id="pills-tabContent">
+                    {% if usuario.admin is not null %}
+                    <div class="tab-pane fade" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                    {% else %}
+                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                    {% endif %}
+                        <div class="perfil-usuario-footer margenAbajo ">
+                            <ul class="lista-datos">
+                                <li><i class="icono fas fa-sharp fa-solid fa-user"></i><b> Nombre de usuario:</b> {{usuario.usuario}}</li>
+                                <li><i class="icono fas fa-briefcase"></i> <b>Correo:</b> {{usuario.correo}}</li>
+                                {% if usuario.edad is not null %}
+                                    <li><i class="icono fas fa-map-signs"></i> <b>Edad:</b> {{usuario.edad}}</li>
+                                {% else %}
+                                    <li><i class="icono fas fa-map-signs"></i> <b>Edad:</b> </li>
+                                {% endif %}
+                                <li><i class="icono fas fa-solid fa-address-card izq"></i><b>Dni:</b> {{usuario.dni}}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+
+                    <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                        <div class="container margenAbajo">
+                            <div class="row row-cols-1 row-cols-md-3 g-4">
+                                {% if n > 0 %}
+                                    {% for discoteca in discotecas %}
+                                        <div class="col">
+                                        <div class="card transi">
+                                            <a href="{% url 'discoteca' discoteca.discotecaId %}"><img src="{{discoteca.foto.url}}" class="card-img-top carta" alt="..."></a>
+                                            <div class="card-img-overlay">
+                                            <h5 class="card-title"><a href="{% url 'subscripcion2' discoteca.discotecaId %}"><button class="campanaA"><i class="fa-solid fa-bell"></i></button></a></h5>
+                                            </div>
+                                            <div class="card-body">
+                                            <a class="linkNombre" href="{% url 'discoteca' discoteca.discotecaId %}"><h5 class="card-title">{{discoteca.nombre}}</h5></a>
+                                            <p class="card-text">{{discoteca.descripcionp}}</p>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <h4>No estas subscrito a ninguna discoteca</h4>
+                                {% endif %}
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+                        <div class="container margenAbajo">
+            
+                            <div class="row row-cols-1 row-cols-md-4 g-4">
+                                
+                                {% for e in entradas %}
+                                {% for i in e.1 %}
+                                        <div class="col">
+                                            <div class="card transi">
+                                                <img src="{{e.0.fiestaId.foto.url}}" class="card-img-top carta" alt="...">
+                                                <div class="card-img-overlay">
+                                                    <h5 class="card-title"><a download="" href="/media/entradas_pdf/{{e.0.nombre}}_{{e.0.fiestaId.nombre}}_{{e.0.entradaId}}_{{i}}.pdf"><button class="campana"><i class="fa-solid fa-download"></i></a></button></h5>
+                                                </div>
+                                                <div class="card-body alturaCartaPerfil">
+                                                <h5 class="card-title">{{e.0.fiestaId.nombre}} - {{e.0.discotecaId.nombre}}</h5>
+                                                <p class="card-text">Fecha: {{e.0.fiestaId.fecha}}</p>
+                                                <p class="card-text">Nombre: {{e.0.nombre}}_{{e.0.fiestaId.nombre}}_{{e.0.entradaId}}_{{i}}</p>
+                                                <p class="card-text">DNI: {{e.0.dni}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% endfor %}
+
+                                
+                            </div>
+            
+                        </div>
+                    </div>
+
+                    {% if usuario.admin is not null %}
+                        <div class="tab-pane fade show active " id="pills-ventas" role="tabpanel" aria-labelledby="pills-ventas-tab">
+
+                            <div class="container-fluid margenAbajo" id="registro">
+                                <div class="centro">
+                                    <label for="" class="form-label">Año:</label>
+                                    <select name="entrada" id="años" onchange="location=this.value">
+                                        {% if year == "2023" %}
+                                            <option value="/perfil/2023" selected>2023</option>
+                                        {% else %}
+                                            <option value="/perfil/2023">2023</option>
+                                        {% endif %}
+
+                                        {% if year == '2022' %}
+                                        <option value="/perfil/2022" selected>2022</option>
+                                        {% else %}
+                                        <option value="/perfil/2022">2022</option>
+                                        {% endif %}
+
+                                        {% if year == '2021' %}
+                                        <option value="/perfil/2021" selected>2021</option>
+                                        {% else %}
+                                        <option value="/perfil/2021">2021</option>
+                                        {% endif %}
+
+                                        {% if year == '2020' %}
+                                        <option value="/perfil/2020" selected>2020</option>
+                                        {% else %}
+                                        <option value="/perfil/2020">2020</option>
+                                        {% endif %}
+    
+                                    </select>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        
+                                        <div id="container"></div>
+                                        
+                                    </div>
+                                </div>
+
+                                <div class="row centro">
+                                    <div class="col-md-12">
+                                        
+                                        <div id="container2"></div>
+                                        
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        
+                                        <div class="centro">
+                                            <label for="" class="form-label">Mes:</label>
+                                            <select name="entrada" id="meses" onchange="location=this.value">
+                                                {% for m in meses %} 
+
+                                                    {% if mes == m %}
+                                                        <option value="/perfil/{{year}}/{{m}}" selected>{{m}}</option>
+                                                    {% else %}
+                                                        <option value="/perfil/{{year}}/{{m}}">{{m}}</option>
+                                                    {% endif %}
+
+                                                {% endfor %}
+            
+                                            </select>
+                                        </div>
+
+                                        <div id="container5"></div>
+
+                                        
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        
+                                        <div class="centro">
+                                            <label for="" class="form-label">Dia:</label>
+                                            <select name="entrada" id="dias" onchange="location=this.value">
+                                                {% for d in lista_fechas_2 %} 
+                                                    <!--{{dia}} {{d}}-->
+                                                    {% if dia == d %}
+                                                        <!-- aqui-->
+                                                        <option value="/perfil/{{year}}/{{mes}}/{{d}}" selected >{{d}}</option>
+                                                    {% else %}
+                                                        <option value="/perfil/{{year}}/{{mes}}/{{d}}">{{d}}</option>
+                                                    {% endif %}
+
+                                                {% endfor %}
+            
+                                            </select>
+                                        </div>
+
+                                        <div id="container4">
+
+                                        </div>
+                                        
+                                    </div>
+
+
+                                </div>
+
+                                <div class="row centro">
+                                    <div class="col-md-12">
+                                        
+                                        <div id="container3"></div>
+                                        
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    
+
+                  </div>
+
+            </div>
+        </div>
+
+    
+    </section>
+
+        
+    
+</div>
+
+{% if usuario.admin == 1 %}
+    <script type="application/javascript">
+        window.onload = function() {
+            document.querySelector('#registro').scrollIntoView({ 
+            behavior: 'smooth' 
+            });
+            const urlSearchParams = new URLSearchParams(window.location.search);
+            const d = urlSearchParams.get('d');
+            console.log(d);
+            if (d==1){
+                document.getElementById("pills-profile").classList.add("active","show")
+                document.getElementById("pills-ventas").classList.remove("active","show")
+                document.getElementById("pills-profile-tab").classList.add("active")
+                document.getElementById("pills-ventas-tab").classList.remove("active")
+            }
+            
+        }
+    </script>
+{% else %}
+    <script type="application/javascript">
+        window.onload = function() {
+        const urlSearchParams = new URLSearchParams(window.location.search);
+        const d = urlSearchParams.get('d');
+        console.log(d);
+        if (d==1){
+            document.getElementById("pills-profile").classList.add("active","show")
+            document.getElementById("pills-home").classList.remove("active","show")
+            document.getElementById("pills-profile-tab").classList.add("active")
+            document.getElementById("pills-home-tab").classList.remove("active")
+        }
+    }
+
+    </script>
+{% endif %}
+
+<script type="application/javascript">
+
+    $(document).ready(function() {
+        $('.cambiar-foto').click(function() {
+            $('#file-input').click();
+            return false;
+        });
+
+        $('#file-input').change(function() {
+            $('#cambiar_f').submit();
+        });
+    });
+
+    
+
+    Highcharts.chart('container', {
+    chart: {
+        type: 'column',
+        backgroundColor: {
+                linearGradient: [0, 0, 500, 500],
+                stops: [
+                    [0, 'rgb(56, 88, 100)'],
+                    [1, 'rgb(129, 181, 175)']
+                ]
+            }
+    },
+    title: {
+        text: 'Entradas vendidas en el año ' + JSON.parse('{{year|safe|escapejs}}'),
+        style:{
+            color:'white'
+        }
+    },
+    subtitle: {
+        text: 'Total de entradas vendidas: ' + JSON.parse('{{sumatorio_entradas|safe|escapejs}}'),
+        style: {
+            color:'white'
+        }
+    },
+    xAxis: {
+        categories: [
+            'Enero',
+            'Febrero',
+            'Marzo',
+            'Abril',
+            'Mayo',
+            'Junio',
+            'Julio',
+            'Agosto',
+            'Septiembre',
+            'Octubre',
+            'Noviembre',
+            'Diciembre'
+        ],
+        crosshair: true,
+        labels: {
+                Text: '{value}',
+                style: {
+                    color: 'black'
+                }
+             }
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'Numero de entradas',
+            style: {
+                color: 'black'
+            }
+        },
+        labels: {
+                Text: '{value}',
+                style: {
+                    color: 'black'
+                }
+             }
+    },
+    tooltip: {
+        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+        pointFormat: '<tr><td style="color:black;padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y:.1f} </b></td></tr>',
+        footerFormat: '</table>',
+        shared: true,
+        useHTML: true
+    },
+    plotOptions: {
+        column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+        }
+    },
+    series: [{
+        name: 'Entradas',
+        showInLegend: false,
+        colorByPoint:true,
+        data: JSON.parse('{{lista_valores_entradas|safe|escapejs}}')
+
+    }]
+    });
+
+
+
+
+
+    Highcharts.chart('container2', {
+        chart: {
+            type: 'areaspline',
+            backgroundColor: {
+                linearGradient: [0, 0, 500, 500],
+                stops: [
+                    [0, 'rgb(56, 88, 100)'],
+                    [1, 'rgb(129, 181, 175)']
+                ]
+            }
+        },
+        title: {
+            text: 'Facturacion en el año ' + JSON.parse('{{year|safe|escapejs}}'),
+            style: {
+                color:'white'
+            }
+        },
+        subtitle: {
+            text: 'Total facturado: ' + JSON.parse('{{sumatorio_facturados|safe|escapejs}}') + ' €',
+            style: {
+                color:'white'
+            }
+        },
+        xAxis: {
+            categories: [
+                'Enero',
+                'Febrero',
+                'Marzo',
+                'Abril',
+                'Mayo',
+                'Junio',
+                'Julio',
+                'Agosto',
+                'Septiembre',
+                'Octubre',
+                'Noviembre',
+                'Diciembre'
+            ],
+            crosshair: true,
+            labels: {
+                Text: '{value}',
+                style: {
+                    color: 'black'
+                }
+             }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Total facturado',
+                style:{
+                    color: 'black'
+                }
+            },
+            labels: {
+                Text: '{value}',
+                style: {
+                    color: 'black'
+                }
+             }
+
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:black;padding:0">Total facturado: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f} € </b></td></tr>',
+            footerFormat: '</table>',
+            shared: true,
+            useHTML: true 
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        series: [{
+            name: 'Entradas',
+            showInLegend: false,
+            colorByPoint:true,
+            data: JSON.parse('{{lista_valores_facturados|safe|escapejs}}')
+        }]
+    });
+
+
+
+
+    Highcharts.chart('container3', {
+        chart: {
+            zoomType: 'xy',
+            backgroundColor: {
+                linearGradient: [0, 0, 500, 500],
+                stops: [
+                    [0, 'rgb(56, 88, 100)'],
+                    [1, 'rgb(129, 181, 175)']
+                ]
+            },
+        },
+        title: {
+            text: 'Numero de entradas y total facturado en los dias de ' + '{{mes}}' + ' de ' + JSON.parse('{{year|safe|escapejs}}'),
+            style:{
+                color:'white'
+            }
+        },
+        subtitle: {
+            text: 'Total de entradas: ' + JSON.parse('{{sum1|safe|escapejs}}') + '<br> <br>'
+                    + 'Total facturado: ' +JSON.parse('{{sum2|safe|escapejs}}') +' € ',
+            style:{
+                color: 'white'
+            }
+        },
+        xAxis: [{
+            categories: JSON.parse('{{lista_fechas|safe|escapejs}}'),
+            crosshair: true,
+            labels: {
+                Text: '{value}',
+                style: {
+                    color: 'black'
+                }
+             }
+        }],
+        yAxis: [{ // Primary yAxis
+            labels: {
+                Text: '{value}',
+                style: {
+                    color: 'rgb(212, 175, 55)'
+                }
+            },
+            title: {
+                text: 'Total facturado',
+                style: {
+                    color: 'rgb(212, 175, 55)'
+                }
+            }
+        }, { // Secondary yAxis
+            title: {
+                text: 'Numero de entradas',
+                style: {
+                    color: 'black'
+                }
+            },
+            labels: {
+                format: '{value}',
+                style: {
+                    color: 'black'
+                }
+            },
+            opposite: true
+        }],
+        tooltip: {
+            headerFormat: '<span style="font-size:10px">Dia {point.key}</span><table><br>',
+            shared: true
+        },
+        series: [{
+            name: 'Numero de entradas',
+            type: 'column',
+            yAxis: 1,
+            data: JSON.parse('{{valores1|safe|escapejs}}'),
+            colorByPoint:true,
+            tooltip: {
+                valueSuffix: ''
+            }
+
+        }, {
+            name: 'Total facturado',
+            type: 'spline',
+            data: JSON.parse('{{valores2|safe|escapejs}}'),
+            color: 'rgb(212, 175, 55)',
+            tooltip: {
+                valueSuffix: '€'
+            }
+        }]
+    });
+
+
+
+    Highcharts.chart('container4', {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie',
+            backgroundColor: {
+                linearGradient: [0, 0, 500, 500],
+                stops: [
+                    [0, 'rgb(56, 88, 100)'],
+                    [1, 'rgb(129, 181, 175)']
+                ]
+            },
+        },
+        title: {
+            text: '{{texto}}',
+            style:{
+                color: 'white'
+            }
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.y}</b>'
+        },
+        accessibility: {
+            point: {
+                valueSuffix: '%'
+            }
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.y} '
+                }
+            }
+        },
+        series: [{
+            name: 'Cantidad',
+            colorByPoint: true,
+            data: [{
+                name: 'No vendidas',
+                y: JSON.parse('{{no_vendidas|safe|escapejs}}'),
+                color:'violet'
+            }, {
+                name: 'Entradas normales',
+                y: JSON.parse('{{normal|safe|escapejs}}'),
+                color:'orange'
+            },  {
+                name: 'Reservados',
+                y: JSON.parse('{{reservado|safe|escapejs}}'),
+                color:'green'
+            }]
+        }]
+    });
+
+
+    Highcharts.chart('container5', {
+        chart: {
+            zoomType: 'xy',
+            backgroundColor: {
+                linearGradient: [0, 0, 500, 500],
+                stops: [
+                    [0, 'rgb(56, 88, 100)'],
+                    [1, 'rgb(129, 181, 175)']
+                ]
+            },
+        },
+        title: {
+            text: 'Numero de entradas y total facturado en las fiestas de ' + '{{mes}}' + ' de ' + JSON.parse('{{year|safe|escapejs}}'),
+            style:{
+                color:'white'
+            }
+        },
+        subtitle: {
+            text: 'Total de entradas: ' + JSON.parse('{{sumatorio2|safe|escapejs}}') + '<br> <br>'
+                    + 'Total facturado: ' +JSON.parse('{{sumatorio1|safe|escapejs}}') +' € ',
+            style:{
+                color: 'white'
+            }
+        },
+        xAxis: [{
+            categories: JSON.parse('{{lista_dias_fiestas|safe|escapejs}}'),
+            crosshair: true,
+            labels: {
+                Text: '{value}',
+                style: {
+                    color: 'black'
+                }
+             }
+        }],
+        yAxis: [{ // Primary yAxis
+            labels: {
+                Text: '{value}',
+                style: {
+                    color: 'rgb(212, 175, 55)'
+                }
+            },
+            title: {
+                text: 'Total facturado',
+                style: {
+                    color: 'rgb(212, 175, 55)'
+                }
+            }
+        }, { // Secondary yAxis
+            title: {
+                text: 'Numero de entradas',
+                style: {
+                    color: 'black'
+                }
+            },
+            labels: {
+                format: '{value}',
+                style: {
+                    color: 'black'
+                }
+            },
+            opposite: true
+        }],
+        tooltip: {
+            headerFormat: '<span style="font-size:10px">Dia {point.key}</span><table><br>',
+            shared: true
+        },
+        series: [{
+            name: 'Numero de entradas',
+            type: 'column',
+            yAxis: 1,
+            data: JSON.parse('{{cantidad_entradas|safe|escapejs}}'),
+            colorByPoint:true,
+            tooltip: {
+                valueSuffix: ''
+            }
+
+        }, {
+            name: 'Total facturado',
+            type: 'spline',
+            data: JSON.parse('{{cantidad_facturado|safe|escapejs}}'),
+            color: 'rgb(212, 175, 55)',
+            tooltip: {
+                valueSuffix: '€'
+            }
+        }]
+    });
+
+
+
+
+
+</script>
+
+
+
+{% endblock %} 

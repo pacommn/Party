@@ -1,0 +1,54 @@
+{% extends "menu.html" %}
+
+{% block titulo %} Subir Foto {% endblock %}
+
+{% block contenido %}   
+
+<div class="row justify-content-center align-items-center g-2">
+    
+    <div class="col md-8">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Editar foto</h4>
+                {% include 'formulario.html' %}
+        
+            </div>
+        </div>
+    </div>
+
+    <div class="col md-4">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Fotos</h4>
+                
+                <div class="table">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Titulo</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+        
+                            <tr class="">
+                                <td scope="row">1</td>
+                                <td>foto1</td>
+                                <td> <a name="" id="" class="btn btn-info" href="{% url 'editar' %}" role="button">Editar</a> 
+                                    | <a name="" id="" class="btn btn-danger" href="#" role="button">Eliminar</a>
+                                </td>
+                            </tr>
+        
+                        </tbody>
+                    </table>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %} 

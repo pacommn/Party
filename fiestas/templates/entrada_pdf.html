@@ -1,0 +1,231 @@
+
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<style>
+    .col{
+        text-align: center;
+    }
+
+    body {
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    }
+
+    .cabecera{
+        background-color: rgb(11, 11, 27);
+        margin-top: 31px;
+        text-align: center;
+        vertical-align: center !important;
+        font-size: 29px;
+        color: #fff;
+    }
+
+    .subtext{
+        font-size: 22px;
+    }
+
+    .container {
+        width: 100%;
+    }
+
+    .imagenPdf{
+        height: 338px;
+        width: 90%;
+    }
+
+    .row{
+        height: 350px;
+    }
+
+    .col1{
+        float: left;
+        width: 40%;
+        box-sizing: border-box;
+        padding: 10px;
+        text-align: center;
+    }
+
+    .col2{
+        float: left;
+        width: 60%;
+        box-sizing: border-box;
+        padding: 10px;
+        text-align: center;
+    }
+
+    .nombrePdf{
+        color: #3357e8;
+    }
+
+    .row .col1 p{
+        font-family: fantasy;
+        font-size: 19px;
+    }
+
+    .qr{
+        height: 126px;
+    }
+
+    .espacio{
+        margin-bottom: 33px;
+
+    }
+    .tipo{
+        color: #3357e8;
+        font-family: fantasy;
+        font-size: 18px;
+    }
+
+    .titulo1{
+        margin-top: 0px;
+    }
+
+    .col3{
+        float: left;
+        width: 10%;
+        box-sizing: border-box;
+        padding: 10px;
+        text-align: center;
+        margin-top: -36px;
+    }
+
+    .col4{
+        float: left;
+        box-sizing: border-box;
+        padding: 10px;
+        margin-top: -18px;
+    }
+
+    .col4_precio{
+        float: left;
+        box-sizing: border-box;
+        padding: 10px;
+        margin-top: -30px;
+    }
+
+    .condiciones{
+        margin-top: 128px;
+    }
+
+    .rec{
+        height: 19px;
+        background-color: rgb(11, 11, 27);
+        float: left;
+        width: 45%;
+        box-sizing: border-box;
+        padding: 10px;
+        margin-top: 3px;
+    }
+
+    .condiciones li{
+        margin-bottom: 3px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 17px;
+    }
+
+    .ulti{
+        margin-bottom: 54px !important;
+    }
+
+    .qr2{
+        margin-top: 118px;
+    }
+
+    .col3_2{
+        float: left;
+        box-sizing: border-box;
+        padding: 10px;
+        text-align: center;
+        margin-top: -19px;
+        margin-right: 70px;
+        height: 186px;
+        margin-left: 95px;
+    }
+
+    .col4_2{
+        float: left;
+        box-sizing: border-box;
+        padding: 10px;
+        width: 58%;
+        margin-top: 18px;
+    }
+
+    .espa{
+        margin-top: 38px;
+    }
+
+    .precio{
+        margin-top: 319px;
+    }
+
+</style>
+</head>
+<body>
+    <div class="container">
+        <div class="cabecera">
+            <b style="color:#42bcdd;">P</b>arty tickets
+            <h1 class="subtext">LLeva la entrada <b>impresa</b> o en tu <b>móvil</b></h1>
+        </div>
+        
+        <div class="row">
+            <div class="col1">
+                <p>{{fecha}}                </p>
+                <p class="espacio">{{discoteca}}</p>
+                <p class="nombrePdf">{{usuario|upper}}</p>
+                <p class="nombrePdf">{{dni}}</p>
+                <img src="{{imagen_qr}}" alt="" class="qr">
+            </div>
+
+            <div class="col2">
+                <img src="{{imagen}}" class="imagenPdf" alt="">
+                <p class="tipo">Entrada tipo: {{tipo}}</p>
+            </div>
+        </div>
+
+        <div class="titulo1">
+            <img src="C:\Users\Paco\Desktop\icono.png" alt="" class="col3">
+            <h1 class="col4">Condiciones generales</h1>
+            <div class="rec"></div>
+        </div>
+
+        <ul class="condiciones">
+            <li>La organización no se hace responsable de las entradas que no se hayan adquirido en los puntos de venta
+                oficiales. Toda entrada enmendada, rota o con indicios de falsificación autorizará al organizador a privar a su
+                portador del acceso al recinto. </li>
+            <li>Al entrar al recinto, el público puede estar sujeto a un registro según ley. No se permite la entrada de objetos que
+                puedan ser considerados peligrosos por la organización o prohibidos por la normativa vigente. No se permitirá la
+                entrada con ningún tipo de comida ni bebida, así como a las personas que se encuentren bajo los efectos de
+                bebidas alcohólicas, estupefacientes, psicotrópicos, estimulantes o sustancias análogas.</li>
+            <li>No se admitirán devoluciones o cambios de entrada, siendo la adquisición de la misma en firme.</li>
+            <li>Prohibida la entrada a menores de 18 años.</li>
+            <li>En caso de falsificación, solo se considerará válida la primera entrada presentada y validada con nuestro sistema.</li>
+            <li>No se permitirá el acceso a cualquier persona que pueda perturbar el correcto desarrollo del espectáculo. </li>
+            <li class="ulti">Party distribuye entradas por cuenta del Organizador, quedando eximidos de toda responsabilidad en
+                relación al evento. En caso de cancelación del evento, el Promotor será el responsable de realizar las
+                devoluciones en el plazo indicado en los Términos y Condiciones de party.com </li>
+        </ul>
+
+
+        <div class="titulo1">
+            <img src="C:\Users\Paco\Desktop\icono2.png" alt="" class="col3">
+            <h1 class="col4">Codigos de validacion</h1>
+            <div class="rec"></div>
+        </div>
+
+        <div class="qr2">
+            <img src="{{imagen_qr}}" alt="" class="col3_2">
+            <span class="col4_2">QR: <b style="font-weight: 100; color: #3357e8;">{{data_qr}}</b></span>
+            <span class="col4_2">Venta: <b style="font-weight: 100; color: #3357e8;">Web online</b></span>
+        </div>
+
+
+        <div class="titulo1 precio">
+            <h1 class="col4_precio">Total: {{precio}} €</h1>
+        </div>
+        
+       
+    </div>
+</body>
+</html>
