@@ -32,9 +32,9 @@
                     <div class="social-plataform">
                         <p>O registrate con</p>
                         <div class="social-icons">
-                            <a href=""><i class="fa-brands fa-facebook-f"></i></a>
-                            <a href=""><i class="fa-brands fa-google"></i></a>
-                            <a href=""><i class="fa-brands fa-twitter"></i></i></a>
+                            <a href="{% provider_login_url 'facebook'  %}"><i class="fa-brands fa-facebook-f"></i></a>
+                            <a href="{% provider_login_url 'google'  %}"><i class="fa-brands fa-google"></i></a>
+                            <a href="{% provider_login_url 'github'  %}"><i class="fa-brands fa-github"></i></i></a>
                         </div>
                     </div>
                 </form>
