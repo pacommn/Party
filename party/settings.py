@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'easy_pdf',
     'fiestas',
-    'carrito',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
