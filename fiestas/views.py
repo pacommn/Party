@@ -16,9 +16,6 @@ from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
 import os
 import requests
-from easy_pdf.views import PDFTemplateResponseMixin
-from django.views.generic import DetailView
-from easy_pdf.rendering import render_to_pdf_response
 from io import BytesIO
 from xhtml2pdf import pisa
 from django.contrib import messages
@@ -430,7 +427,7 @@ def cambiar_foto(request):
         archivo = request.FILES['file2']
         usuario=request.user.username
         user=Usuarios.objects.get(usuario=usuario)
-        user.foto= '/imagenes/imagenes/'+ archivo.name
+        user.foto= '/media/imagenes/'+ archivo.name
         user.save()
 
         fs = FileSystemStorage()

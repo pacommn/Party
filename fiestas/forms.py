@@ -16,9 +16,9 @@ class FotosForm(forms.ModelForm):
         model = Fotos
         fields =('foto',)
 
-    widgets = {
-            'foto': forms.ClearableFileInput(attrs={'multiple': True}),
-        }
+    #widgets = {
+     #       'foto': forms.ClearableFileInput(attrs={'multiple': True}),
+      #  }
 
 class EntradaForm(forms.ModelForm):
     dni = forms.CharField(validators=[RegexValidator(r'^\d{8}[A-Za-z]$', 'Ingrese un DNI válido.')])

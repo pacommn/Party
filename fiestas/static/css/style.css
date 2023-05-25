@@ -408,6 +408,7 @@ body{
 
     .alturaCarta{
         height: 150px !important;
+        background-color: #dbdbdb;
     }
 
     
@@ -488,6 +489,7 @@ body{
 
 .alturaCarta{
     height: 150px;
+    background-color: #a6c9c9;
 }
 
 .alturaCartaPerfil{
