@@ -66,6 +66,9 @@ def discotecas(request):
     
 
 def inicio(request):
+    ruta_actual = os.path.dirname(os.path.abspath(__file__))
+    ruta_anterior = os.path.dirname(ruta_actual).replace("\\", "/")
+    print(ruta_anterior)
     if request.user.is_authenticated:
         username=request.user.username
         lista_nombres=[]
@@ -106,8 +109,11 @@ def finalizarCompra(request,id):
         fecha=e.fiestaId.fecha
         precio=e.coste
 
+        ruta_actual = os.path.dirname(os.path.abspath(__file__))
+        ruta_anterior = os.path.dirname(ruta_actual).replace("\\", "/")
+        print(ruta_anterior)
         imagen=e.fiestaId.foto
-        ruta="C:/Users/Paco/Desktop/uni/cuarto/TFG/party/party/" + str(imagen)
+        ruta=ruta_anterior + "/"+ str(imagen)
         CLIENT_ID = 'ea115e7d06213e2'
         url = 'https://api.imgur.com/3/image'
         headers = {'Authorization': f'Client-ID {CLIENT_ID}'}
@@ -120,7 +126,9 @@ def finalizarCompra(request,id):
         else:
             print("Error al subir la imagen")
 
-        ruta="file:///C:/Users/Paco/Desktop/uni/cuarto/TFG/party/party/" + str(imagen)
+        ruta="file:///" + ruta_anterior + "/"+ str(imagen)
+        icono1="file:///" + ruta_anterior + "/imagenes/icono.PNG"
+        icono2="file:///" + ruta_anterior + "/imagenes/icono2.PNG"
         fiesta=e.fiestaId.nombre
         discoteca=e.fiestaId.discotecaId.nombre
         tipo=e.tipo
@@ -139,10 +147,10 @@ def finalizarCompra(request,id):
             nombre_qr=data_qr +'.png'
             qr_path = os.path.join(settings.MEDIA_ROOT, 'entradas_qr', nombre_qr)
             img.save(qr_path)
-            ruta_qr="file:///C:/Users/Paco/Desktop/uni/cuarto/TFG/party/party/entradas_qr/" + nombre_qr
+            ruta_qr="file:///" + ruta_anterior + "/entradas_qr/" + nombre_qr
 
             context={'discoteca':discoteca, 'tipo':tipo, 'fecha':fecha,'imagen':ruta, 'usuario':nombre,'dni':dni,'precio':precio,
-                     'imagen_qr':ruta_qr,'data_qr':data_qr}
+                     'imagen_qr':ruta_qr,'data_qr':data_qr,'icono':icono1, 'icono2':icono2}
             
             template=get_template('entrada_pdf.html')
             content=template.render(context)
@@ -383,8 +391,8 @@ def editar(request, id):
     return render(request, 'editar.html',{'formulario':formulario , 'usuario': usuario})
 
 def eliminar(request, id):
-    discoteca=Discotecass.objects.get(discotecaId=id)
-    discoteca.delete()
+    foto=Fotos.objects.get(fotoId=id)
+    foto.delete()
     return redirect('subir')
 
 def registrar(request):
