@@ -76,7 +76,7 @@
         entrada=document.getElementById("entrada").value;
 
         if(entrada=="R"){
-            texto=document.getElementsByClassName("infoFiesta")[0].children[1].innerHTML=" <strong>Precio:</strong> 100€ (Incluye una botella y 30 refrescos) "
+            texto=document.getElementsByClassName("infoFiesta")[0].children[1].innerHTML=" <strong>Precio:</strong> {{fiesta.precio_reservado}} € {{fiesta.info_reservado}} "
             document.getElementsByClassName("infoFiesta")[0].children[3].innerHTML=" <strong> Maximo {{fiesta.personas_reservado}} personas  </strong> "
         }else{
             texto=document.getElementsByClassName("infoFiesta")[0].children[1].innerHTML=" <strong>Precio:</strong> {{fiesta.precio}} € (Incluye una consumicion) "

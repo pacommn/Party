@@ -44,6 +44,8 @@ class Fiestas(models.Model):
     foto= models.ImageField(upload_to='imagenes/',verbose_name="Foto de Perfil"  , null=True)
     descripcion=models.CharField(max_length=1500,verbose_name="descripcion")
     precio=models.IntegerField(verbose_name="precio")
+    precio_reservado=models.IntegerField(verbose_name="precio del reservado", default=100)
+    info_reservado=models.CharField(max_length=1500,verbose_name="info del reservado", default="nada")
     personas_reservado=models.IntegerField(verbose_name="Personas maxima del reservado")
     discotecaId=models.ForeignKey(Discotecass,null=True,on_delete=models.CASCADE)
     fecha=models.DateField(verbose_name="fecha")

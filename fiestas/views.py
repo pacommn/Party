@@ -321,8 +321,11 @@ def fiesta(request,id):
                 entrada=entrada_repetida.first()
                 entrada.cantidad +=cantidad
             else:
-                entrada=Entradas(tipo=tipo,coste=fiesta.precio, dni=dni,nombre=nombre,cantidad=cantidad,discotecaId=fiesta.discotecaId,fiestaId=fiesta,usuarioId=usuario,pagado=0,carritoId=carrito,correo_de_entrega=correo)
-        
+                if tipo == 'N':
+                    entrada=Entradas(tipo=tipo,coste=fiesta.precio, dni=dni,nombre=nombre,cantidad=cantidad,discotecaId=fiesta.discotecaId,fiestaId=fiesta,usuarioId=usuario,pagado=0,carritoId=carrito,correo_de_entrega=correo)
+                else:
+                    entrada=Entradas(tipo=tipo,coste=fiesta.precio_reservado, dni=dni,nombre=nombre,cantidad=cantidad,discotecaId=fiesta.discotecaId,fiestaId=fiesta,usuarioId=usuario,pagado=0,carritoId=carrito,correo_de_entrega=correo)
+
         elif request.user.is_authenticated:
             correo=formulario.cleaned_data['correo_de_entrega']
             print("aqui")
@@ -331,8 +334,11 @@ def fiesta(request,id):
                 entrada=entrada_repetida.first()
                 entrada.cantidad +=cantidad
             else:
-                entrada=Entradas(tipo=tipo,coste=fiesta.precio, dni=dni,nombre=nombre,cantidad=cantidad,discotecaId=fiesta.discotecaId,fiestaId=fiesta,usuarioId=usuario,pagado=0,carritoId=carrito,correo_de_entrega=correo)
-        
+                if tipo == 'N':
+                    entrada=Entradas(tipo=tipo,coste=fiesta.precio, dni=dni,nombre=nombre,cantidad=cantidad,discotecaId=fiesta.discotecaId,fiestaId=fiesta,usuarioId=usuario,pagado=0,carritoId=carrito,correo_de_entrega=correo)
+                else:
+                    entrada=Entradas(tipo=tipo,coste=fiesta.precio_reservado, dni=dni,nombre=nombre,cantidad=cantidad,discotecaId=fiesta.discotecaId,fiestaId=fiesta,usuarioId=usuario,pagado=0,carritoId=carrito,correo_de_entrega=correo)
+
         else:
             correo=formulario.cleaned_data['correo_de_entrega']
             entrada_repetida=Entradas.objects.filter(fiestaId=fiesta.fiestaId, carritoId=carrito.carritoId, tipo=tipo,dni=dni,nombre=nombre)
@@ -340,7 +346,11 @@ def fiesta(request,id):
                 entrada=entrada_repetida.first()
                 entrada.cantidad +=cantidad
             else:
-                entrada=Entradas(tipo=tipo,coste=fiesta.precio, dni=dni,nombre=nombre,cantidad=cantidad,discotecaId=fiesta.discotecaId,fiestaId=fiesta,pagado=0,carritoId=carrito,correo_de_entrega=correo)
+                if tipo == 'N':
+                    entrada=Entradas(tipo=tipo,coste=fiesta.precio, dni=dni,nombre=nombre,cantidad=cantidad,discotecaId=fiesta.discotecaId,fiestaId=fiesta,pagado=0,carritoId=carrito,correo_de_entrega=correo)
+                else:
+                     entrada=Entradas(tipo=tipo,coste=fiesta.precio_reservado, dni=dni,nombre=nombre,cantidad=cantidad,discotecaId=fiesta.discotecaId,fiestaId=fiesta,pagado=0,carritoId=carrito,correo_de_entrega=correo)
+
 
         entrada.save()
         
@@ -410,13 +420,15 @@ def registrar(request):
         return redirect('discotecas')
     return render(request,'registrar.html',{'formulario':formulario, 'request':request, 'usuario': usuario})
 
+
 def editar_info(request):
     if request.user.is_authenticated:
         username=request.user.username
         usuario=Usuarios.objects.get(usuario=username)
+        id=Usuarios.objects.get(usuario=username).usuarioId
     else:
         usuario="peppepe"
-    id=Usuarios.objects.get(usuario=username).usuarioId
+        id=1
     user=Usuarios.objects.get(usuarioId=id)
     formulario=UserForm2(request.POST or None ,instance=user)
     

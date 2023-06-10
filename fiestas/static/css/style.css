@@ -1086,6 +1086,16 @@ table.table tbody td{
     padding: 40px;
 }
 
+.wrapper3{
+    position: relative;
+    width: 400px;
+    height: 500px;
+    background: rgba(255, 255, 255,.35);
+    border-radius: 20px;
+    box-shadow: 0 0 50px rgba(0, 0, 0, .1);
+    padding: 40px;
+}
+
 .form-wrapper{
     display: flex;
     align-items: center;
