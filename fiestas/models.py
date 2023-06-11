@@ -42,7 +42,7 @@ class Usuarios(models.Model):
 class Fiestas(models.Model):
     fiestaId=models.AutoField(primary_key=True)
     foto= models.ImageField(upload_to='imagenes/',verbose_name="Foto de Perfil"  , null=True)
-    descripcion=models.CharField(max_length=1500,verbose_name="descripcion")
+    descripcion=models.TextField(max_length=1500,verbose_name="descripcion")
     precio=models.IntegerField(verbose_name="precio")
     precio_reservado=models.IntegerField(verbose_name="precio del reservado", default=100)
     info_reservado=models.CharField(max_length=1500,verbose_name="info del reservado", default="nada")
