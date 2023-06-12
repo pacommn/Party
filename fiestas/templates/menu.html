@@ -82,13 +82,15 @@
         </li>
         {% endif %}
 
-        <li class="nav-item">
-          <a class="nav-link position-relative carro" href="{% url 'carrito' %}"><i class="fa-solid fa-cart-shopping"></i></i> 
-            <span class="numCarrito">
-              {{total_carrito}}
-            </span>
-          </a>
-        </li>
+        {% if 'carritoId' in request.COOKIES %}
+          <li class="nav-item">
+            <a class="nav-link position-relative carro" href="{% url 'carrito' %}"><i class="fa-solid fa-cart-shopping"></i></i> 
+              <span class="numCarrito">
+                {{total_carrito}}
+              </span>
+            </a>
+          </li>
+        {% endif %}
 
       </ul>
 
