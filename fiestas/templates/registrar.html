@@ -9,9 +9,9 @@
 <div class="container abajo">
     <div class="encuadre">
         <div class="wrapper2">
-            <div class="form-wrapper sign-up">
+            <div class="formu">
                 <form enctype="multipart/form-data" method="post">
-                    <h2 class="titLogin">Registrarse</h2>
+                    <h2 class="tituloLogin">Registrarse</h2>
                     {% csrf_token %}
                     {% for campo in formulario %}
                         <div class="opciones">
@@ -28,12 +28,12 @@
                         <label><input type="checkbox">Acepto los terminos y condiciones</label>
                     </div>
                     <button class="btnLogin" type="submit">Registrarse</button>
-                    <div class="signUp-link">
-                        <p>¿Ya tienes cuenta? <a href="{% url 'login' %}" class="signUpBtn-link">Iniciar sesion</a></p>
+                    <div class="registrolink">
+                        <p>¿Ya tienes cuenta? <a href="{% url 'login' %}" class="">Iniciar sesion</a></p>
                     </div>
-                    <div class="social-plataform">
+                    <div class="social">
                         <p>O registrate con</p>
-                        <div class="social-icons">
+                        <div class="socialiconos">
                             <a href="{% provider_login_url 'facebook'  %}"><i class="fa-brands fa-facebook-f"></i></a>
                             <a href="{% provider_login_url 'google'  %}"><i class="fa-brands fa-google"></i></a>
                             <a href="{% provider_login_url 'github'  %}"><i class="fa-brands fa-github"></i></i></a>

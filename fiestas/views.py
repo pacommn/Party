@@ -452,9 +452,8 @@ def cambiar_foto(request):
 
         fs = FileSystemStorage()
         filename = fs.save('imagenes/' + archivo.name, archivo)
-        # Guarda el archivo en algún lugar de almacenamiento permanente en el servidor
-        # O guárdalo en el modelo de usuario
-        return redirect('perfil') # Redirige a la página de perfil después de cargar la imagen
+       
+        return redirect('perfil') 
     else:
         return HttpResponse('Método no válido')
 
