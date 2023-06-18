@@ -82,7 +82,7 @@
         </li>
         {% endif %}
 
-        {% if 'carritoId' in request.COOKIES %}
+        {% if 'carritoId' in request.COOKIES or user.is_authenticated %}
           <li class="nav-item">
             <a class="nav-link position-relative carro" href="{% url 'carrito' %}"><i class="fa-solid fa-cart-shopping"></i></i> 
               <span class="numCarrito">
