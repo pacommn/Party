@@ -146,12 +146,26 @@ body{
     .carritoLargo{
         width: 153%;
     }
+
+    .container2{
+        padding-left: 0% !important;
+        width: 110% !important;
+    }
 }
 
 
 @media screen and (max-width: 768px){
     #image-inner-container{
         width: 100% !important;
+    }
+
+    .container2{
+        padding-left: 0% !important;
+        width: 110% !important;
+    }
+
+    .col2{
+        text-align: center;
     }
 
     .center-carrito{
@@ -407,7 +421,7 @@ body{
     }
 
     .alturaCarta{
-        height: 150px !important;
+        height: 166px !important;
         background-color: #dbdbdb;
     }
 

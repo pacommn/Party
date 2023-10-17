@@ -40,6 +40,8 @@ def buscador(request):
         else:
             request.session['mensaje']=nombre
             return redirect('/discotecas')
+    else:
+        return redirect('/discotecas')
 
 def discotecas(request):
     x=False
@@ -416,7 +418,7 @@ def registrar(request):
         usuarioId=Usuarios.objects.get(usuario=user.username)
         carrito=Carrito(usuarioId=usuarioId)
         carrito.save()
-        login(request,user)
+        login(request,user,backend='django.contrib.auth.backends.ModelBackend')
         return redirect('discotecas')
     return render(request,'registrar.html',{'formulario':formulario, 'request':request, 'usuario': usuario})
 
@@ -434,7 +436,7 @@ def editar_info(request):
     
     if formulario.is_valid():
         formulario.save()
-        user2=User.objects.get(id=id)
+        user2=User.objects.get(username=username)
         user2.email=formulario.cleaned_data["correo"]
         user2.username=formulario.cleaned_data["usuario"]
         user2.save()

@@ -8,6 +8,7 @@ from django.template.loader import get_template
 from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
 import requests
+import os
 
 #mail1='moisestaba5@gmail.com'
 #mail2='robertoac5a@gmail.com'
@@ -20,7 +21,10 @@ def saluda(sender, instance, created, **kwargs):
         fiesta=instance.nombre
         fecha=instance.fecha
         imagen=instance.foto
-        ruta="C:/Users/Paco/Desktop/uni/cuarto/TFG/party/party/" + str(imagen)
+        ruta_actual = os.path.dirname(os.path.abspath(__file__))
+        ruta_anterior = os.path.dirname(ruta_actual).replace("\\", "/")
+        ruta=ruta_anterior + "/"+ str(imagen)
+        #ruta="C:/Users/Paco/Desktop/uni/cuarto/TFG/party/party/" + str(imagen)
         print(ruta)
 
         CLIENT_ID = 'ea115e7d06213e2'
@@ -39,7 +43,7 @@ def saluda(sender, instance, created, **kwargs):
         else:
             print("Error al subir la imagen")
 
-        urlc="https://aquicompratuentrada.com"
+        urlc="http://pacommn.pythonanywhere.com/fiesta/" + str(instance.fiestaId)
 
         usuarios_suscritos=Subscripciones.objects.filter(discotecaId=instance.discotecaId)
         lista_usuarios=[]
