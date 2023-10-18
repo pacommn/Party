@@ -5,6 +5,35 @@
 {% block contenido %}   
 
 <div class="container3 margen margenAbajo">
+
+{% if messages and x %}
+    {% if fiesta.entradas_disponibles == 0 %}
+        <script type="text/javascript">
+        Swal.fire({
+            title: 'Advertencia',
+            icon: 'warning',
+            html: 'No quedan entradas disponibles para la fiesta {{mensaje}}',
+            showCloseButton: true,
+            showCancelButton: false,
+            focusConfirm: false,
+            confirmButtonText: 'OK'
+        })
+        </script>
+    {% else %}
+        <script type="text/javascript">
+        Swal.fire({
+            title: 'Advertencia',
+            icon: 'warning',
+            html: 'Solo quedan {{fiesta.entradas_disponibles}} entradas disponibles para la fiesta {{mensaje}}',
+            showCloseButton: true,
+            showCancelButton: false,
+            focusConfirm: false,
+            confirmButtonText: 'OK'
+        })
+        </script>
+    {% endif %}
+    
+{% endif %}
     <div class="row ">
         <div class="col-md-4">
 

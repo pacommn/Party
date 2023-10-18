@@ -428,6 +428,17 @@ body{
     
 }
 
+.badge-red {
+    background-color: #42bcdd; /* Fondo rojo */
+    color: #ffffff; /* Texto blanco */
+    padding: 5px 10px; /* Espaciado interno */
+    position: absolute; /* Posición absoluta */
+    top: 10px; /* Desde arriba */
+    right: 10px; /* Desde la derecha */
+    z-index: 1; /* Para estar encima de la imagen */
+}
+
+
 .abajo{
     background-size: cover;
     background-repeat: no-repeat;

@@ -11,7 +11,18 @@
         {% for fiesta in fiestas %}
         <div class="col">
           <div class="card transi">
-            <a href="{% url 'fiesta' fiesta.fiestaId %}"><img src="{{fiesta.foto.url}}" class="card-img-top carta" alt="..."></a>
+            <a href="{% url 'fiesta' fiesta.fiestaId %}">
+              <div class="position-relative">
+                <img src="{{fiesta.foto.url}}" class="card-img-top carta" alt="...">
+                <div class="badge badge-red">
+                  {% if fiesta.entradas_disponibles == 0 %}
+                    Sin stock
+                  {% else %}
+                    {{ fiesta.entradas_disponibles }} entradas disponibles
+                  {% endif %}
+                </div>
+              </div>
+            </a>
             <div class="card-body alturaCarta">
               <h5 class="card-title">{{fiesta.nombre}} - {{fiesta.discotecaId.nombre}} </h5>
               <hr>

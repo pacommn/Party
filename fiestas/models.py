@@ -52,6 +52,12 @@ class Fiestas(models.Model):
     nombre=models.CharField(max_length=100,verbose_name="nombre")
     numero_entradas=models.IntegerField(verbose_name="numero de entradas")
     
+    def entradas_disponibles(self):
+        entradas = Entradas.objects.filter(fiestaId=self)
+        entradas_vendidas=0
+        for e in entradas:
+            entradas_vendidas += e.cantidad
+        return self.numero_entradas - entradas_vendidas
 
     def __str__(self):
         fila= "Nombre " + self.nombre + " - " + "Fecha " + str(self.fecha)   
