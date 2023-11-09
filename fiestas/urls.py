@@ -33,6 +33,8 @@ urlpatterns= [
     path('carrito/eliminar/<int:id>', views.carritoElimina, name='eliminarCarrito'),
     path('subscripcion/<int:id>', views.subscripciones, name='subscripcion'),
     path('subscripcion2/<int:id>', views.subscripciones2, name='subscripcion2'),
+    path('success/<int:id1>/<int:id2>', views.success, name='success'), #id de la entrada/id carrito
+    path('cancel', views.cancel, name='cancel'),
     path('accounts/', include('allauth.urls')),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

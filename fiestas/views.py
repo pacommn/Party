@@ -22,7 +22,25 @@ from django.contrib import messages
 import qrcode
 from django.core.files.storage import FileSystemStorage
 from django.core.paginator import Paginator,PageNotAnInteger,EmptyPage
+import stripe
 
+
+
+
+#Vamos a crear un diccionario de cada discoteca con su clave privada para saber a que discoteca enviar el pago
+pagos_discotecas={'Casino Terraza':'sk_test_51OAWWCHf6JgUqdBIMu321Rrur6mq3FpxNkYzYtaYyMvkYol5k28Iu2JU7xLf3mX1xUH7hcNb4XueKWfcQJaoq6K500JWCdCLsk',
+                  'Alfonso Terraza':'sk_test_51OAC1qEIedsCMZk8rcH3mpk1M2GGuWI3nntKh4fdF4waxpypbf4m2nHqfZ3LjmQcIZrp2DfvgTLaOQLUZPSXGE3T00BjaaTCbW',
+                  'Antique theatro':'sk_test_51OAaSsETJQGPKjFRb593NIKxrjXFTlYdbBOckX9mgOdifSge8eczD92R61z67a67hdTx1nIUsrjWDTPV57fxEWW300RUtU7pZp'}
+
+#Tambien crearemos un diccionario para saber el tipo de producto de cada discoteca
+discoteca_casino={'15':'prod_OyTjUdtm0xIMcD','100':'prod_OyTlAS9ux5mmbq','150':'prod_OyTlbXqnazFYP6'}
+discoteca_alfonso={'15':'prod_OyTruLAGnTHd3Y','100':'prod_OyTsDdRzbNx2lZ','150':'prod_OyTtWMCF03Y1f5'}
+discoteca_antique={'15':'prod_OyXezAb1Jl2GFO','10':'prod_OyXfvGXbT60hwf','100':'prod_OyXfr6eLIy1Fav'}
+
+#Creamos un diccionario que tendra diccionario de los productos de las discotecas segun el nnombre
+productos_discotecas={'Casino Terraza':discoteca_casino,
+                  'Alfonso Terraza':discoteca_alfonso,
+                  'Antique theatro':discoteca_antique,}
 
 # Create your views here.
 
@@ -99,7 +117,7 @@ def mapa(request):
         usuario="peppepe"
     return render(request, 'mapa.html', {'usuario': usuario})
 
-def finalizarCompra(request,id):
+"""def finalizarCompra(request,id):
     entradas=Entradas.objects.filter(carritoId=id)
     for e in entradas:
         e.pagado=1
@@ -185,7 +203,147 @@ def finalizarCompra(request,id):
             email.attach(pdf_filename, pdf_bytes, 'application/pdf')
             email.send()
 
-    return redirect('carrito')
+    return redirect('carrito')"""
+
+def finalizarCompra(request,id):
+    entradas=Entradas.objects.filter(carritoId=id)
+    urls_redireccion = []
+    if entradas.count()>0:
+        for e in entradas:
+            id_entrada=e.entradaId
+            discoteca=e.discotecaId.nombre
+            cobradora=pagos_discotecas[discoteca] #esta es la secret key
+            # This is your test secret API key.
+            stripe.api_key = cobradora
+
+            print(cobradora)
+            print(discoteca)
+            precio=e.coste
+            id_producto=productos_discotecas[discoteca][str(precio)]
+            id_precio=stripe.Price.list(product=id_producto, limit=1).data[0].id
+            
+            try:
+
+                checkout_session = stripe.checkout.Session.create(
+                    line_items=[
+                        {
+
+                        'price':id_precio,
+                        'quantity':e.cantidad,
+
+                        }
+                        
+                    ],
+                    mode='payment',
+                    success_url='http://127.0.0.1:8000/success/'+str(id_entrada) +'/' +str(id),
+                    cancel_url='http://127.0.0.1:8000/cancel',
+                )
+
+                urls_redireccion.append(checkout_session.url)
+
+                return redirect(urls_redireccion[0]) 
+
+            except Exception as e:
+                print("holaaaa")
+                return HttpResponse(str(e))
+
+        return redirect(checkout_session.url)
+    
+    return render(request, 'success.html')
+
+def success(request,id1,id2):
+    entradas=Entradas.objects.filter(entradaId=id1)
+    for e in entradas:
+        e.pagado=1
+        e.carritoId=None
+        e.save()
+        cantidad=e.cantidad
+        dni=e.dni
+        nombre=e.nombre
+        fecha=e.fiestaId.fecha
+        precio=e.coste
+
+        ruta_actual = os.path.dirname(os.path.abspath(__file__))
+        ruta_anterior = os.path.dirname(ruta_actual).replace("\\", "/")
+        print(ruta_anterior)
+        imagen=e.fiestaId.foto
+        ruta=ruta_anterior + "/"+ str(imagen)
+        CLIENT_ID = 'ea115e7d06213e2'
+        url = 'https://api.imgur.com/3/image'
+        headers = {'Authorization': f'Client-ID {CLIENT_ID}'}
+        with open(ruta, 'rb') as f:
+            response = requests.post(url, headers=headers, files={'image': f})
+        if response.ok:
+            # Obtenemos la URL de la imagen subida
+            url_imagen = response.json()['data']['link']
+            print(f"La imagen ha sido alojada en {url_imagen}")
+        else:
+            print("Error al subir la imagen")
+
+        ruta="file:///" + ruta_anterior + "/"+ str(imagen)
+        icono1="file:///" + ruta_anterior + "/imagenes/icono.PNG"
+        icono2="file:///" + ruta_anterior + "/imagenes/icono2.PNG"
+        fiesta=e.fiestaId.nombre
+        discoteca=e.fiestaId.discotecaId.nombre
+        tipo=e.tipo
+        if tipo=='N':
+            tipo='Normal'
+        else:
+            tipo='Reservado'
+
+        for i in range(cantidad):
+            data_qr = str(nombre) + '_' + str(fiesta) + '_' + str(e.entradaId) + '_' + str(i)
+            data_qr_utf8 = data_qr.encode('utf-8')
+            qr=qrcode.QRCode(version=1,box_size=10,border=5)
+            qr.add_data(data_qr_utf8)
+            qr.make(fit=True)
+            img=qr.make_image(fill='black',back_color='white')
+            nombre_qr=data_qr +'.png'
+            qr_path = os.path.join(settings.MEDIA_ROOT, 'entradas_qr', nombre_qr)
+            img.save(qr_path)
+            ruta_qr="file:///" + ruta_anterior + "/entradas_qr/" + nombre_qr
+
+            context={'discoteca':discoteca, 'tipo':tipo, 'fecha':fecha,'imagen':ruta, 'usuario':nombre,'dni':dni,'precio':precio,
+                     'imagen_qr':ruta_qr,'data_qr':data_qr,'icono':icono1, 'icono2':icono2}
+            
+            template=get_template('entrada_pdf.html')
+            content=template.render(context)
+            print("1")
+            #template = 'entrada_pdf.html'
+            #pdf = render_to_pdf(template, context)
+            #return HttpResponse(pdf, content_type='application/pdf')
+            config = pdfkit.configuration(wkhtmltopdf="C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe")
+            pdf_filename = str(nombre) + '_' + str(fiesta) +  '_' + str(e.entradaId) + '_' + str(i) + '.pdf'
+            pdf_path = os.path.join(settings.MEDIA_ROOT, 'entradas_pdf', pdf_filename)
+            pdf_bytes = pdfkit.from_string(content, configuration=config, options={"enable-local-file-access": None})
+            print("2")
+            with open(pdf_path, 'wb') as pdf_file:
+                pdf_file.write(pdf_bytes)
+
+            print("3")
+            context={'discoteca':discoteca, 'fiesta':fiesta, 'fecha':fecha, 'usuario':e.nombre,'imagen':url_imagen}
+            template=get_template('correo_entrega.html')
+            content=template.render(context)
+            print("4")
+            email=EmailMultiAlternatives(
+                '¡Gracias por tu compra!',
+                'Paco',
+                settings.EMAIL_HOST_USER,
+                [e.correo_de_entrega]
+
+            )
+
+            email.attach_alternative(content, 'text/html')
+            email.attach(pdf_filename, pdf_bytes, 'application/pdf')
+            email.send()
+
+    return redirect('http://127.0.0.1:8000/carrito/finalizar/'+str(id2))
+    
+
+def cancel(request):
+    return render(request, 'cancel.html')
+
+
 
 def render_to_pdf(template_src, context_dict={}):
     template = get_template(template_src)

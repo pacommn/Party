@@ -341,7 +341,7 @@ body{
     }
 
     .container3 .center input{
-        width: 40%;
+        width: 45%;
     }
 
     .container3 .tituloFiesta{
@@ -421,7 +421,7 @@ body{
     }
 
     .alturaCarta{
-        height: 166px !important;
+        height: 188px !important;
         background-color: #dbdbdb;
     }
 
@@ -436,6 +436,37 @@ body{
     top: 10px; /* Desde arriba */
     right: 10px; /* Desde la derecha */
     z-index: 1; /* Para estar encima de la imagen */
+}
+
+
+.gracias{
+    max-width: 600px;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    height: 300px;
+}
+
+.gracias h1{
+    color:#333;
+}
+
+.gracias p {
+    color: #666;
+    margin-top: 29px;
+}
+
+.thank-you {
+    font-size: 24px;
+    color: #4CAF50;
+    margin-bottom: 20px;
+}
+
+.footer {
+    margin-top: 30px;
+    color: #888;
 }
 
 
