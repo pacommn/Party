@@ -27,6 +27,8 @@
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.0/dist/sweetalert2.min.css">
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.0/dist/sweetalert2.all.min.js"></script>
   <script src="https://js.stripe.com/v3/"></script>
+  <!-- Incluye wheelnav.js desde una CDN -->
+
 
 
 </head>
@@ -37,7 +39,19 @@
 
     <nav class="menu">
 
+      <label class="bar2">
+        <span class="">
+          <a class="nav-link position-relative carro" href="{% url 'carrito' %}"><i class="fa-solid fa-cart-shopping"></i></i> 
+            <span class="numCarrito">
+              {{total_carrito}}
+            </span>
+          </a>
+        </span>
+      </label>
+
       <div class="icon"><a class="nav-link" href="{% url 'inicio' %}"><b style="color:#42bcdd;">P</b>arty</a></div>
+
+      
 
       <div class="search_box">
         <form method="GET" action="{% url 'buscar' %}">
@@ -100,6 +114,12 @@
         <span class="fa fa-bars" id="bars"></span>
         <span class="fa fa-times" id="times"></span>
       </label>
+
+
+      
+
+
+      
 
         
     </nav>

@@ -103,5 +103,25 @@
 </script>
 
 
+<script>
+    function incrementarCantidad(fieldName) {
+      var campo = document.querySelector('input[name="' + fieldName + '"]');
+      console.log(campo.value)
+      if (campo.value) {
+        campo.value = parseInt(campo.value) + 1;
+      }else{
+        campo.value = 1;
+      }
+    }
+  
+    function decrementarCantidad(fieldName) {
+      var campo = document.querySelector('input[name="' + fieldName + '"]');
+      if (campo.value && parseInt(campo.value) > 0) {
+        campo.value = parseInt(campo.value) - 1;
+      }
+    }
+  </script>
+
+
 
 {% endblock %} 

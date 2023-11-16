@@ -17,7 +17,15 @@
                         <option value="N">Normal</option>
                         <option value="R">Reservado</option>
                     </select>
-                {% else %}
+                {% endif %}
+                
+                {% if campo.label == 'Cantidad' %}
+                <div class="input-group-cant">
+                    <button type="button" class="btn btn-primary cant" onclick="incrementarCantidad('{{campo.name}}')"><span class="btn-text">+</span></button>
+                    <input type="{{campo.field.widget.input_type}}" class="form-control" name="{{campo.name}}" id="" aria-describedby="helpId" placeholder="{{campo.label}}" value="{{campo.value | default:'' }}" multiple>
+                    <button type="button" class="btn btn-primary cant" onclick="decrementarCantidad('{{campo.name}}')"><span class="btn-text">-</span></button>
+                  </div>
+                {% elif  campo.field.widget.input_type != 'select' %}
 
                     <input type="{{campo.field.widget.input_type}}" class="form-control" name="{{campo.name}}" id="" aria-describedby="helpId" placeholder="{{campo.label}}" value="{{campo.value | default:'' }}"> 
                 {% endif %}
@@ -41,7 +49,15 @@
                         <option value="N">Normal</option>
                         <option value="R">Reservado</option>
                     </select>
-                {% else %}
+                {% endif %}
+            
+                {% if campo.label == 'Cantidad' %}
+                <div class="input-group-cant">
+                    <button type="button" class="btn btn-primary cant" onclick="incrementarCantidad('{{campo.name}}')"><span class="btn-text">+</span></button>
+                    <input type="{{campo.field.widget.input_type}}" class="form-control" name="{{campo.name}}" id="" aria-describedby="helpId" placeholder="{{campo.label}}" value="{{campo.value | default:'' }}" multiple>
+                    <button type="button" class="btn btn-primary cant" onclick="decrementarCantidad('{{campo.name}}')"><span class="btn-text">-</span></button>
+                  </div>
+                {% elif  campo.field.widget.input_type != 'select' %}
 
                     <input type="{{campo.field.widget.input_type}}" class="form-control" name="{{campo.name}}" id="" aria-describedby="helpId" placeholder="{{campo.label}}" value="{{campo.value | default:'' }}" multiple> 
                 {% endif %}
@@ -66,7 +82,15 @@
                         <option value="N">Normal</option>
                         <option value="R">Reservado</option>
                     </select>
-                {% else %}
+                {% endif %}
+            
+                {% if campo.label == 'Cantidad' %}
+                <div class="input-group-cant">
+                    <button type="button" class="btn btn-primary cant" onclick="incrementarCantidad('{{campo.name}}')"><span class="btn-text">+</span></button>
+                    <input type="{{campo.field.widget.input_type}}" class="form-control" name="{{campo.name}}" id="" aria-describedby="helpId" placeholder="{{campo.label}}" value="{{campo.value | default:'' }}" multiple>
+                    <button type="button" class="btn btn-primary cant" onclick="decrementarCantidad('{{campo.name}}')"><span class="btn-text">-</span></button>
+                  </div>
+                {% elif campo.field.widget.input_type != 'select' %}
 
                     <input type="{{campo.field.widget.input_type}}" class="form-control" name="{{campo.name}}" id="" aria-describedby="helpId" placeholder="{{campo.label}}" value="{{campo.value | default:'' }}" multiple> 
                 {% endif %}
